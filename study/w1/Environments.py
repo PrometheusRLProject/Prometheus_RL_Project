@@ -26,8 +26,8 @@ class HighwayGame(gym.Env):
         """
         self.n_lanes = n_lanes
         self.max_steps = max_steps
-        self.road = np.load(os.path.join(PROJECT_PATH, "w1/road.npy"))  # 미리 준비해 둔 highway 맵
-
+        # self.road = np.load(os.path.join(PROJECT_PATH, "w1/data/road.npy"))  # 미리 준비해 둔 highway 맵
+        self.road = self.generate_road()
         self.steps = 0      # 현재 steps = in-game time
         self.current_lane = n_lanes//2      # 맨 처음에 player는 lane의 중간에 위치합니다.
 
@@ -49,14 +49,22 @@ class HighwayGame(gym.Env):
         """
         현재 관찰 가능한 상태를 리턴합니다.
         ** state와 obs는 다릅니다! obs는 agent에게 직접 제공되는 state 중 하나로,
-        :return:
         """
         return self.road[min(self.steps + 1, self.max_steps - 1)]
 
+    def get_encoded_obs(self) -> GymObs:
+        """
+        현재 관찰 가능한 상태를 정수 형태로 인코딩 해서 리턴합니다. (only for discrete obs space)
+        :return:
+        """
+        return np.argmin(self.get_obs())
+
     def reset(self) -> GymObs:
+        self.road = self.generate_road()
         self.steps = 0
         self.current_lane = self.n_lanes//2
-        return self.get_obs()
+        # return self.get_obs()
+        return self.get_encoded_obs()
 
     def step(self, action: int, debug=False) -> GymStepReturn:
         reward, done = 0, False
@@ -86,7 +94,8 @@ class HighwayGame(gym.Env):
             self.render()
             print(f"Action: {action}, Reward: {reward}, Done: {done}, Info: {info}")
 
-        return self.get_obs(), reward, done, info
+        # return self.get_obs(), reward, done, info
+        return self.get_encoded_obs(), reward, done, info
 
     def render(self, mode="human"):
         clear_output(wait=True)
@@ -95,6 +104,22 @@ class HighwayGame(gym.Env):
             if i == 0:
                 repr_str[self.current_lane] = "O"
             print("|"+" ".join(repr_str)+"|")
+
+    def generate_road(self) -> np.ndarray:
+        """
+        Highway game의 맵을 생성합니다.
+        :param n_lanes: number of lanes
+        :param max_steps: length of the highway
+        :return: np.ndarray, shape = (max_steps, n_lanes)
+        """
+        road = np.ones((self.max_steps, self.n_lanes), dtype=bool)
+        for i in range(self.max_steps):
+            if i > 0 and road[i-1].any():
+                road[i, :] = 0
+            elif np.random.rand() < 0.7:
+                road[i, np.random.choice(self.n_lanes)] = 0
+
+        return road
 
     def play(self, policy=None):
         obs = self.reset()
