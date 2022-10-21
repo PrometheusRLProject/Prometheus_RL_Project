@@ -9,7 +9,7 @@ from stable_baselines3.common.type_aliases import GymObs, GymStepReturn
 
 import os
 
-PROJECT_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 class HighwayGame(gym.Env):
