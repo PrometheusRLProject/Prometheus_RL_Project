@@ -940,5 +940,6 @@ function onDependencyLoaded(markdown) {
 }
 
 function markdown(markdown) {
-  loadScript('https://cdn.jsdelivr.net/npm/marked/marked.min.js', onDependencyLoaded.bind(null, markdown))
+  // loadScript('https://cdn.jsdelivr.net/npm/marked/marked.min.js', onDependencyLoaded.bind(null, markdown))
+  loadScript("https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js", onDependencyLoaded.bind(null, markdown))
 }
