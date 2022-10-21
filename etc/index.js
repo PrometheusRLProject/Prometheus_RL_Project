@@ -54,7 +54,7 @@ const styles = `
     background-color: var(--color-canvas-default);
     font-family: Poppins, -apple-system,BlinkMacSystemFont,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji;
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.5;
     word-wrap: break-word
 }
