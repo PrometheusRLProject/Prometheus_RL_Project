@@ -36,7 +36,8 @@ const styles = `
         --color-fg-default: #c9d1d9;
         --color-fg-muted: #8b949e;
         --color-fg-subtle: #484f58;
-        --color-canvas-default: #0d1117;
+        /*--color-canvas-default: #0d1117;*/
+        --color-canvas-default: transparent;
         --color-canvas-subtle: #161b22;
         --color-border-default: #30363d;
         --color-border-muted: #21262d;
@@ -84,8 +85,8 @@ const styles = `
         --color-fg-default: #24292f;
         --color-fg-muted: #57606a;
         --color-fg-subtle: #6e7781;
-        --color-canvas-default: #ffffff;
-        --color-canvas-subtle: #f6f8fa;
+        --color-canvas-default: transparent;
+        --color-canvas-subtle: #e2e4e7;
         --color-border-default: #d0d7de;
         --color-border-muted: hsla(210,18%,87%,1);
         --color-neutral-muted: rgba(175,184,193,0.2);
