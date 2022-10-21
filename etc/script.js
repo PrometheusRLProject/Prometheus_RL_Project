@@ -654,12 +654,12 @@ const styles = `
 }
 
 .markdown-body table tr {
-  background-color: #edeef0;
+  background-color: #f3f3f3;
   border-top: 1px solid hsla(210,18%,87%,1);
 }
 
 .markdown-body table tr:nth-child(2n) {
-  background-color: #f6f8fa;
+  background-color: #edeef0;
 }
 
 .markdown-body table img {
