@@ -235,7 +235,7 @@ class HanoiGame(gym.Env):
         self.render()
 
         while not done:
-            action = policy.action() if policy else self.action_space.sample()
+            action = policy.action(obs) if policy else self.action_space.sample()
             obs, reward, done, info = self.step(action)
             self.render()
             if done:

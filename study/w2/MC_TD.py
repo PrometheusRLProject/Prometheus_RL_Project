@@ -148,6 +148,27 @@ class PolicyEvaluation:
         raise NotImplementedError
 
 
+class MonteCarloEvaluation(PolicyEvaluation):
+    def __init__(self,
+                 policy: GreedyPolicy,
+                 eps_schedule: Optional[Callable[[int], float]] = None,
+                 gamma: float = 0.9):
+        super().__init__(policy, eps_schedule)
+        self.eps_schedule = eps_schedule
+        self.gamma = gamma
+        self.counter = np.zeros_like(self.policy.vf.values)
+
+    def value_update(self, episode_buffer):
+        G = 0
+        for obs, action, reward, next_obs, done in reversed(episode_buffer):
+            G = reward + self.gamma * G
+            self.counter[obs, action] += 1
+
+            prev_value = self.policy.vf.value(obs, action)
+            new_value = prev_value + (G - prev_value) / self.counter[obs, action]
+            self.policy.vf.update(new_value, obs, action)
+
+
 class TemporalDifferenceEvaluation(PolicyEvaluation):
     def __init__(self,
                  policy: GreedyPolicy,
